@@ -4,10 +4,12 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Models\Variant;
 use App\Models\Rack;
+use App\Models\Variant;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
+use DB;
 
 class ProductController extends Controller
 {
@@ -19,11 +21,11 @@ class ProductController extends Controller
     public function index()
     {
         if(auth()->user()){
-            $data=Product::all();
-            $data=ProductResource::collection($data);
+            $data=Product::orderBy('id','DESC')->paginate(30);
+            return ProductResource::collection($data);
             return response()->json([
                 'success'=>true,
-                'data'=>$data
+                'data'=>ProductResource::collection($data)
             ]);
         }
     }
@@ -73,6 +75,15 @@ class ProductController extends Controller
         $data->rack_id=$request->rack_id;
         $data->cost=$request->cost;
         $data->save();
+        $transaction=new Transaction;
+        $transaction->type="Debit";
+        $transaction->credit=0;
+        $transaction->debit=$request->cost;
+        $transaction->for="Product Cost";
+        $transaction->supplier_id=$request->supplier_id;
+        $transaction->product_id=$data->id;
+        $transaction->status="Pending";
+        $transaction->save();
         return response()->json([
             'success'=>true,
             'data'=>$data
@@ -128,6 +139,20 @@ class ProductController extends Controller
         $data->rack_id=$request->rack_id;
         $data->cost=$request->cost;
         $data->save();
+        $transaction=Transaction::where('product_id',$request->id)->where('supplier_id',$request->supplier_id)->first();
+        if(isset($transaction)){
+
+        }else{
+            $transaction=new Transaction();
+        }
+        $transaction->type="Debit";
+        $transaction->credit=0;
+        $transaction->debit=$request->cost;
+        $transaction->for="Product Cost";
+        $transaction->supplier_id=$request->supplier_id;
+        $transaction->product_id=$data->id;
+        $transaction->status="Pending";
+        $transaction->save();
         return response()->json([
             'success'=>true,
             'data'=>$data
@@ -143,16 +168,19 @@ class ProductController extends Controller
     }
     public function savevariant(Request $request){
         Variant::where('product_id',$request->id)->delete();
+        $product=Product::find($request->id);
         foreach($request->items as $key=>$item){
-            if(isset($item['color_code']) && isset($item['cartoon']) && isset($item['price']) && $item['rack_id'] != 'none' && isset($item['volume'])){
+            if(isset($item['color_code']) && isset($item['price']) && $item['rack_id'] != 'none'){
             $variant=new Variant();
             $variant->name=$item['name'];
             $variant->color_code=$item['color_code'];
             $variant->cartoon=$item['cartoon'];
             $variant->price=$item['price'];
             $variant->rack_id=$item['rack_id'];
+            $variant->unit_price=$item['unit_price'];
             $variant->volume=$item['volume'];
-            $variant->product_id=$request->id;
+            $variant->product_id=$request->id;            
+            $variant->status=$product->status;
             $variant->save();
             $save[]=1;
             }else{
@@ -179,5 +207,19 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+    public function getpendingproduct(){
+        if(auth()->user()){
+            $data=Product::where('status','Pending')->orderBy('id','DESC')->paginate(30);
+            return ProductResource::collection($data);
+            return response()->json([
+                'success'=>true,
+                'data'=>ProductResource::collection($data)
+            ]);
+        }
+    }
+    public function approve(Request $request){
+        DB::table('products')->where('id', $request->id)->update(array('status' => 'Approved'));  
+        DB::table('variants')->where('product_id',$request->id)->update(array('status'=>'Approved'));
     }
 }

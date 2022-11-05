@@ -49,6 +49,7 @@ const routes = [
                     },
                 ],
             },
+            
             {
                 path: '/admin',
                 name: 'components',
@@ -141,6 +142,24 @@ const routes = [
                         component: () =>
                             import('../views/order/Create.vue'),
                     },
+                    {
+                        path: 'order/view/:id',
+                        name: 'orderview',
+                        component: () =>
+                            import('../views/order/View.vue'),
+                    },
+                    {
+                        path: 'product/pending',
+                        name: 'pendingproduct',
+                        component: () =>
+                            import('../views/product/Pending.vue'),
+                    },
+                    {
+                        path: 'transaction',
+                        name: 'transaction',
+                        component: () =>
+                            import('../views/transaction/Index.vue'),
+                    }
                 ],
             },
             
@@ -161,6 +180,11 @@ const routes = [
                 ],
             },
         ],
+    },
+    {
+        path: '/admin/order/invoice/:id',
+        name: 'orderinvoiceview',
+        component: () => import('../views/order/Invoice.vue'),
     },
 
     { path: '/signIn', component: SignIn },

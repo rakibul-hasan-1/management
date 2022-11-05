@@ -7,7 +7,7 @@
                         Order List
                     </div>
                     <div class="col-md-6 text-end">
-                        <router-link to="/admin/product/create" class="btn btn-primary">
+                        <router-link to="/admin/order/create" class="btn btn-primary">
                             Create New
                         </router-link>
                     </div>
@@ -30,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item,index) in items" :key="index">
+                        <tr v-for="(item,index) in items.data" :key="index">
                             <td>{{index+1}}</td>
                             <td>{{item.order_no}}</td>
                             <td>{{item.customer.name}}</td>
@@ -39,21 +39,28 @@
                             <td>{{item.total}}</td>
                             <td>{{item.status}}</td>
                             <td>
-                                <router-link :to="{ name: 'productedit', params: { id: item.id }}" class="btn btn-primary mx-2">View</router-link>
-                                <router-link :to="{ name: 'addvariant', params: { id: item.id }}" class="btn btn-primary mx-2">Invoice</router-link>
+                                <router-link :to="{ name: 'orderview', params: { id: item.id }}" class="btn btn-primary mx-2">View</router-link>
+                                <router-link :to="{ name: 'orderinvoiceview', params: { id: item.id }}" class="btn btn-primary mx-2" target="_blank">Invoice</router-link>
                                 <a @click="deletes(item.id)" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
                     </tbody>
+                    
                 </table>
                 </div>
+                <Pagination :data="items" @pagination-change-page="getResults" />
             </div>
         </div>
     </div>
 </template>
 <script>
 import axios from 'axios'
+import LaravelVuePagination from 'laravel-vue-pagination';
+
 export default{
+    components: {
+        'Pagination': LaravelVuePagination
+    },
     data(){
         return{
             items:[],
@@ -62,30 +69,20 @@ export default{
     },
     created(){
         axios.get('/api/getorder').then(response=>{
-            console.log(response.data.data);
-            this.items=response.data.data;
+            console.log(response.data);
+            this.items=response.data;
         }).catch(error=>{
             console.log(error)
         });
+        this.getResults();
     },
     methods:{
-        creates(){
-            axios.get('/api/getproduct').then(response=>{
-                console.log(response.data.data);
-                this.items=response.data.data;
-            }).catch(error=>{
-                console.log(error)
-            });
+        getResults(page = 1) {
+            axios.get('/api/getorder?page=' + page)
+                .then(response => {
+                    this.items = response.data;
+                });
         },
-        deletes(id){
-            const data={'id':id}
-            axios.post('/api/product/delete',data).then(response=>{
-                console.log(response);
-                this.creates();
-            }).catch(error=>{
-                console.log(error)
-            });
-        }
     }
 }
 </script>

@@ -115,6 +115,16 @@ let handleWindowResize = () => {
                             </div>
                         </router-link>
                         <router-link
+                            to="/admin/product/pending"
+                            tag="li"
+                            class="nav-item"
+                        >
+                            <div class="nav-item-hold">
+                                <i class="i-Wallet text-3xl"></i>
+                                <p>Pending Product</p>
+                            </div>
+                        </router-link>
+                        <router-link
                             to="/admin/order/create"
                             tag="li"
                             class="nav-item"
@@ -135,13 +145,13 @@ let handleWindowResize = () => {
                             </div>
                         </router-link>
                         <router-link
-                            to="/components/button"
+                            to="/admin/transaction"
                             tag="li"
                             class="nav-item"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-Wallet text-3xl"></i>
-                                <p>Buttons</p>
+                                <p>Transaction</p>
                             </div>
                         </router-link>
                         <router-link

@@ -10,6 +10,7 @@ use App\Http\Controllers\api\SupplierController;
 use App\Http\Controllers\api\CustomerController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\OrderController;
+use App\Http\Controllers\api\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,12 +55,21 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/product/edits',[ProductController::class,'edits']);
     Route::post('/product/update',[ProductController::class,'updates']);
     Route::post('/product/delete',[ProductController::class,'delete']);
+    Route::post('/product/approve',[ProductController::class,'approve']);
     Route::post('/getracks',[ProductController::class,'getracks']);
     Route::post('/savevariant',[ProductController::class,'savevariant']);
     Route::post('/getvariant',[ProductController::class,'getvariant']);
+    Route::get('/getpendingproduct',[ProductController::class,'getpendingproduct']);
 
     //Order
     Route::get('/getorder',[OrderController::class,'index']);
     Route::post('/getvariantbycode',[OrderController::class,'getvariantbycode']);
     Route::post('/searchcustomer',[OrderController::class,'searchcustomer']);
+    Route::post('/getunitss',[OrderController::class,'getunitss']);
+    Route::post('/placeorder',[OrderController::class,'placeorder']);
+    Route::post('/getorder',[OrderController::class,'getorder']);
+    Route::Post("/getvariantbyorder",[OrderController::class,'getvariantbyorder']);
+
+    //Transaction
+    Route::get('/transaction',[TransactionController::class,'index']);
 });

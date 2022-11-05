@@ -13,6 +13,8 @@ import BaseBtn from './components/Base/BaseBtn.vue'
 import PerfectScrollbar from 'vue3-perfect-scrollbar'
 import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 import VueApexCharts from "vue3-apexcharts";
+import pagination from 'laravel-vue-pagination';
+
 
 // globally call 
 
@@ -29,5 +31,6 @@ createApp(App)
     .use(VueApexCharts)
     .use(VueAxios, axios)
     .use(store)
+    .component('pagination', pagination)
     .use(router)
     .mount('#app')

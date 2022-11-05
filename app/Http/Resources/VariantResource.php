@@ -3,8 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\RackResource;
 
-class ProductResource extends JsonResource
+class VariantResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +18,14 @@ class ProductResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'quantity'=>$this->quantity,
-            'cost'=>$this->cost,
-            'supplier'=>$this->supplier,
-            'godown'=>$this->godown,
-            'rack'=>$this->rack,
-            'status'=>$this->status
+            'color_code'=>$this->color_code,
+            'volume'=>$this->volume,
+            'cartoon'=>$this->cartoon,
+            'price'=>$this->price,
+            'unit_price'=>$this->unit_price,
+            'rack_id'=>$this->rack_id,
+            'rack'=>new RackResource($this->rack),
+            'product_id'=>$this->product_id,
         ];
     }
 }

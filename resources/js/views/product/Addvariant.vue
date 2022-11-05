@@ -67,7 +67,8 @@
                                             <th>Rack</th>
                                             <th>Volume (KG)</th>
                                             <th>Cartoon</th>
-                                            <th>Price</th>
+                                            <th>Unit Price</th>
+                                            <th>Total Price</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -92,7 +93,10 @@
                                                 <input type="text" class="form-control" v-model="item.cartoon"/>
                                             </td>
                                             <td>
-                                                <input type="number" class="form-control" v-model="item.price"/>
+                                                <input type="text" class="form-control" v-model="item.unit_price" v-on:keyup="changeunit(index)" />
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" v-model="item.price" readonly/>
                                             </td>
                                             <td>
                                                 <a class="btn btn-info my-1 text-white" @click="deleterow(index)">X</a>
@@ -223,6 +227,25 @@ export default{
             }).catch(error=>{
                 console.log(error)
             });
+        },
+        changeunit(index){
+            console.log(this.items[index].unit_price);
+            if(this.items[index].volume){
+                const volume=this.items[index].volume;
+                const unit_price=this.items[index].unit_price;
+                const total=volume*unit_price;
+                console.log("volume",total);
+                this.items[index].price=total;
+            }else if(this.items[index].cartoon){
+                const cartoon=this.items[index].cartoon;
+                const unit_price=this.items[index].unit_price;
+                const total=cartoon*unit_price;
+                this.items[index].price=total;
+            }else{
+                this.items[index].unit_price=0;
+                this.items[index].price=0;
+            }
+            
         }
     }
 }

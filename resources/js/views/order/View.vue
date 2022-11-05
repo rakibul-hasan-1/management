@@ -2,7 +2,7 @@
     <div class="grid grid-cols-1 md:grid-cols-1 lg:grif-cols-1 xl:grid-cols-1 gap-4 ">
         <div class="card">
             <div class="card-header">
-                Add New Order
+                Order Details
             </div>
             <div class="card-body">
                 <div class="row">
@@ -17,25 +17,25 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="">Customer Phone</label>
-                                            <input type="tel" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-on:keyup="searchcustomer" v-model="customer.phone"/>
+                                            <input type="tel" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-on:keyup="searchcustomer" v-model="customer.phone" readonly/>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="">Customer Name</label>
-                                            <input type="text" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-model="customer.name" />
+                                            <input type="text" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-model="customer.name" readonly />
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="">Customer Email</label>
-                                            <input type="email" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-model="customer.email" />
+                                            <input type="email" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-model="customer.email" readonly />
                                         </div>
                                     </div> 
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="">Customer Address</label>
-                                            <input type="text" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-model="customer.address" />
+                                            <input type="text" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-model="customer.address" readonly />
                                         </div>
                                     </div>                 
                                 </div>
@@ -47,15 +47,9 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Add Product</h5>
+                                <h5 class="card-title">Product List</h5>
                                 <div style="height:20px"></div>
                                 <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="">Search Product By Color Code</label>
-                                            <input type="text" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-on:keyup="searchproduct" v-model="color_code" />
-                                        </div>
-                                    </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-12">
                                         <table class="table">
@@ -69,37 +63,33 @@
                                                     <th>Cartoon/Pieces</th>
                                                     <th>Unit Price</th>
                                                     <th>Total Price</th>
-                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-for="(item,index) in items" :key="index">
                                                     <td>
-                                                        <input type="text" class="form-control" v-model="item.name" readonly />
+                                                        <input type="text" class="form-control" v-model="item.variant.name" readonly />
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" v-model="item.color_code" readonly />
+                                                        <input type="text" class="form-control" v-model="item.variant.color_code" readonly />
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" v-model="item.rack.godown.name" readonly />
+                                                        <input type="text" class="form-control" v-model="item.variant.rack.godown.name" readonly />
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" v-model="item.rack.name" readonly />
+                                                        <input type="text" class="form-control" v-model="item.variant.rack.name" readonly />
                                                     </td>
                                                     <td>
-                                                        <input type="number" class="form-control" v-model="item.volume" v-on:keyup="changevolume(index)" :max="item.volume" min="1"/>
+                                                        <input type="number" class="form-control" v-model="item.volume" v-on:keyup="changevolume(index)" :max="item.volume" min="1" readonly/>
                                                     </td>
                                                     <td>
-                                                        <input type="number" class="form-control" v-model="item.cartoon" v-on:keyup="changecartoon(index)" :max="item.cartoon" min="1" />
+                                                        <input type="number" class="form-control" v-model="item.cartoon" v-on:keyup="changecartoon(index)" :max="item.cartoon" min="1" readonly/>
                                                     </td>
                                                     <td>
-                                                        <input type="number" class="form-control" v-model="item.unit_price" min="1" readonly/>
+                                                        <input type="number" class="form-control" v-model="item.variant.unit_price" min="1" readonly/>
                                                     </td>
                                                     <td>
-                                                        <input type="number" class="form-control" v-model="item.price" readonly/>
-                                                    </td>
-                                                    <td>
-                                                        <a class="btn btn-info my-1 text-white" @click="deleterow(index)">X</a>
+                                                        <input type="number" class="form-control" v-model="item.total" readonly/>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -128,7 +118,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="">Discount</label>
-                                            <input type="number" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-on:keyup="changediscount" v-model="discount"/>
+                                            <input type="number" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-on:keyup="changediscount" v-model="discount" readonly />
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -140,12 +130,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row my-4">
-                    <div class="col-md-12 text-center">
-                        <button type="button" class="btn btn-primary text-primary hover:!text-white m-2" @click="submit()">Place Order</button>
-                        <button type="button" class="btn btn-primary text-primary hover:!text-white m-2" @click="submit()">Place Order with Invoice Print</button>
                     </div>
                 </div>
             </div>
@@ -170,10 +154,30 @@ export default{
             subtotal:0,
             discount:0,
             total:0,
+            id:null,
         }
     },
     created(){
-
+        const route = useRoute()
+        const id = route.params.id
+        const data={'id':id}
+        axios.post('/api/getorder',data).then(response=>{
+            console.log(response);
+            this.subtotal=response.data.data.subtotal
+            this.discount=response.data.data.discount
+            this.total=response.data.data.total
+            this.id=id
+            this.customer=response.data.data.customer
+        }).catch(error=>{
+            console.log(error)
+        });
+        axios.post('/api/getvariantbyorder',data).then(response=>{
+            console.log(response);
+            this.items=response.data.data
+        }).catch(error=>{
+            console.log(error)
+        });
+        
     },
     methods:{
         searchproduct(){

@@ -22,9 +22,13 @@
     "dependencies": {
         "@headlessui/vue": "^1.7.3",
         "apexcharts": "^3.36.0",
+        "html2pdf.js": "^0.10.1",
+        "laravel-vue-pagination": "^3.0.0",
+        "toastr": "^2.1.4",
         "vue-axios": "^3.5.1",
         "vue-router": "^4.1.6",
         "vue3-apexcharts": "^1.4.1",
+        "vue3-html2pdf": "^1.1.2",
         "vue3-perfect-scrollbar": "^1.6.0",
         "vuex": "^4.0.2"
     }
