@@ -24,4 +24,7 @@ class Transaction extends Model
     public function order(){
         return $this->belongsTo(Order::class);
     }
+    public function suppliertransaction(){
+        return $this->hasOne(SupplierTransaction::class);
+    }
 }

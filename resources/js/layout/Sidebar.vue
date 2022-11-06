@@ -145,6 +145,26 @@ let handleWindowResize = () => {
                             </div>
                         </router-link>
                         <router-link
+                            to="/admin/suppliertransaction/pending"
+                            tag="li"
+                            class="nav-item"
+                        >
+                            <div class="nav-item-hold">
+                                <i class="i-Wallet text-3xl"></i>
+                                <p>Supplier Transaction Request</p>
+                            </div>
+                        </router-link>
+                        <router-link
+                            to="/admin/transaction/pending"
+                            tag="li"
+                            class="nav-item"
+                        >
+                            <div class="nav-item-hold">
+                                <i class="i-Wallet text-3xl"></i>
+                                <p>Transaction Request</p>
+                            </div>
+                        </router-link>
+                        <router-link
                             to="/admin/transaction"
                             tag="li"
                             class="nav-item"

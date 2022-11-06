@@ -1,10 +1,28 @@
 <template>
+<div class="modal" id="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Paid Amount</h5>
+        <button type="button" class="btn-danger" data-bs-dismiss="modal" aria-label="Close" @click="hidemodal()">X</button>
+      </div>
+      <div class="modal-body">
+        <input type="number" v-modal="paid" class="form-control">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary bg-danger" @click="hidemodal()">Close</button>
+        <button type="button" class="btn btn-primary bg-primary" @click="savemodal()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <div class="grid grid-cols-1 md:grid-cols-1 lg:grif-cols-1 xl:grid-cols-1 gap-4">
         <div class="card">
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-6">
-                        Transaction List
+                        Supplier Transaction Request List
                     </div>
                     <div class="col-md-6 text-end">
                         <router-link to="/admin/product/create" class="btn btn-primary">
@@ -21,46 +39,33 @@
                         <tr>
                             <th>SL</th>
                             <th>Date</th>
-                            <th>Type</th>
                             <th>For</th>
-                            <th>Details</th>
-                            <th>Credit</th>
-                            <th>Debit</th>
+                            <th>Total</th>
+                            <th>Paid</th>
+                            <th>Due</th>
                             <th>Status</th>
+                            <th>Approve/Reject</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(item,index) in items.data" :key="index" :class="item.type">
                             <td>{{index+1}}</td>
                             <td>{{item.date}}</td>
-                            <td>{{item.type}}</td>
-                            <td>{{item.for}}</td>
                             <td>
-                                <div v-if="item.product">
-                                Product Name: {{item.product.name}}
-                                </div>
-                                <div v-if="item.customer">
-                                Customer Name: {{item.customer.name}}
-                                <br>
-                                Customer Phone: {{item.customer.phone}}
-                                </div>
-                                <div v-if="item.supplier">
-                                Supplier Name: {{item.supplier.name}}
-                                <br>
-                                Supplier Phone: {{item.supplier.phone}}
-                                </div>
-                                <div v-if="item.user">
-                                User Name: {{item.user.name}}
-                                <br>
-                                User Phone: {{item.user.phone}}
-                                </div>
-                                <div v-if="item.order">
-                                Order Id: {{item.order.order_no}}
-                                </div>
+                                <span v-if="item.transaction.product.name">
+                                Product Name: {{item.transaction.product.name ?? ""}}
+                                </span>
+</td>
+                            <td>
+                                {{item.total}}
                             </td>
-                            <td>{{item.credit}}</td>
-                            <td>{{item.debit}}</td>
+                            <td>{{item.paid}}</td>
+                            <td>{{item.due}}</td>
                             <td><span class="badge badge-danger">{{item.status}}</span></td>
+                            <td>
+                                <a class="btn btn-primary m-1" @click="acceptsuppliertransaction(item.id)">Accept</a>
+                                <a class="btn btn-danger m-1" @click="deletesuppliertransaction(item.id)"> Delete</a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -76,11 +81,12 @@ export default{
     data(){
         return{
             items:[],
-            id:null
+            id:null,
+            paid:0,
         }
     },
     created(){
-        axios.get('/api/transaction').then(response=>{
+        axios.get('/api/suppliertransactionrequest').then(response=>{
             console.log(response.data);
             this.items=response.data;
         }).catch(error=>{
@@ -89,7 +95,7 @@ export default{
     },
     methods:{
         getResults(page = 1) {
-            axios.get('/api/transaction?page=' + page)
+            axios.get('/api/suppliertransactionrequest?page=' + page)
                 .then(response => {
                     this.items = response.data;
                 });
@@ -110,6 +116,35 @@ export default{
             }).catch(error=>{
                 console.log(error)
             });
+        },
+        acceptsuppliertransaction(id){
+            this.id=id;
+            const data={'id':id}
+            console.log(data)
+            document.getElementById('modal').setAttribute('style','display:block !important');
+            // axios.post('/api/transaction/approve',data).then(response=>{
+            //     console.log(response);
+            //     this.creates();
+            // }).catch(error=>{
+            //     console.log(error)
+            // });
+        },
+        savemodal(){
+            const data={'paid':this.paid,'id':this.id}
+            console.log(data);
+        },
+        deletesuppliertransaction(id){
+            const data={'id':id}
+            console.log(data)
+            // axios.post('/api/transaction/delete',data).then(response=>{
+            //     console.log(response);
+            //     this.creates();
+            // }).catch(error=>{
+            //     console.log(error)
+            // });
+        },
+        hidemodal(){
+            document.getElementById('modal').setAttribute('style','display:none !important');
         }
     }
 }

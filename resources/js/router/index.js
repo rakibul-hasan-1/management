@@ -89,6 +89,12 @@ const routes = [
                             import('../views/supplier/Edit.vue'),
                     },
                     {
+                        path: 'supplier/transaction/:id',
+                        name: 'suppliertransaction',
+                        component: () =>
+                            import('../views/supplier/Transaction.vue'),
+                    },
+                    {
                         path: 'customer',
                         name: 'customer',
                         component: () =>
@@ -153,6 +159,18 @@ const routes = [
                         name: 'pendingproduct',
                         component: () =>
                             import('../views/product/Pending.vue'),
+                    },
+                    {
+                        path: 'suppliertransaction/pending',
+                        name: 'pendingsuppliertransaction',
+                        component: () =>
+                            import('../views/supplier/Pending.vue'),
+                    },
+                    {
+                        path: 'transaction/pending',
+                        name: 'pendingtransaction',
+                        component: () =>
+                            import('../views/transaction/Pending.vue'),
                     },
                     {
                         path: 'transaction',

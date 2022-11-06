@@ -26,6 +26,7 @@
                             <th>Adress</th>
                             <th>Status</th>
                             <th>Action</th>
+                            <th>Transaction</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,6 +40,9 @@
                             <td>
                                 <router-link :to="{ name: 'supplieredit', params: { id: item.id }}" class="btn btn-primary mx-2">Edit</router-link>
                                 <a @click="deletes(item.id)" class="btn btn-danger">Delete</a>
+                            </td>
+                            <td>
+                                <router-link :to="{ name: 'suppliertransaction', params: { id: item.id }}" class="btn btn-primary mx-2">Transaction</router-link>
                             </td>
                         </tr>
                     </tbody>

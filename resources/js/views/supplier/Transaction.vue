@@ -4,7 +4,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-6">
-                        Transaction List
+                        Supplier Transaction List
                     </div>
                     <div class="col-md-6 text-end">
                         <router-link to="/admin/product/create" class="btn btn-primary">
@@ -23,9 +23,9 @@
                             <th>Date</th>
                             <th>Type</th>
                             <th>For</th>
-                            <th>Details</th>
-                            <th>Credit</th>
-                            <th>Debit</th>
+                            <th>Total</th>
+                            <th>Paid</th>
+                            <th>Due</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -34,32 +34,12 @@
                             <td>{{index+1}}</td>
                             <td>{{item.date}}</td>
                             <td>{{item.type}}</td>
-                            <td>{{item.for}}</td>
+                            <td>{{item}}</td>
                             <td>
-                                <div v-if="item.product">
-                                Product Name: {{item.product.name}}
-                                </div>
-                                <div v-if="item.customer">
-                                Customer Name: {{item.customer.name}}
-                                <br>
-                                Customer Phone: {{item.customer.phone}}
-                                </div>
-                                <div v-if="item.supplier">
-                                Supplier Name: {{item.supplier.name}}
-                                <br>
-                                Supplier Phone: {{item.supplier.phone}}
-                                </div>
-                                <div v-if="item.user">
-                                User Name: {{item.user.name}}
-                                <br>
-                                User Phone: {{item.user.phone}}
-                                </div>
-                                <div v-if="item.order">
-                                Order Id: {{item.order.order_no}}
-                                </div>
+                                {{item.total}}
                             </td>
-                            <td>{{item.credit}}</td>
-                            <td>{{item.debit}}</td>
+                            <td>{{item.paid}}</td>
+                            <td>{{item.due}}</td>
                             <td><span class="badge badge-danger">{{item.status}}</span></td>
                         </tr>
                     </tbody>
@@ -72,6 +52,8 @@
 </template>
 <script>
 import axios from 'axios'
+import { useRoute } from 'vue-router'
+import router from '../../router'
 export default{
     data(){
         return{
@@ -80,7 +62,10 @@ export default{
         }
     },
     created(){
-        axios.get('/api/transaction').then(response=>{
+        const route = useRoute()
+        const id = route.params.id
+        const data={"id":id};
+        axios.post('/api/suppliertransaction',data).then(response=>{
             console.log(response.data);
             this.items=response.data;
         }).catch(error=>{
@@ -89,7 +74,8 @@ export default{
     },
     methods:{
         getResults(page = 1) {
-            axios.get('/api/transaction?page=' + page)
+            const data={"id":this.id};
+            axios.post('/api/suppliertransaction?page=' + page,data)
                 .then(response => {
                     this.items = response.data;
                 });

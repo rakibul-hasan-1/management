@@ -5,6 +5,8 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use App\Models\SupplierTransaction;
+use App\Http\Resources\SupplierTransactionResource;
 
 
 class SupplierController extends Controller
@@ -126,5 +128,13 @@ class SupplierController extends Controller
     public function destroy(Supplier $supplier)
     {
         //
+    }
+    public function suppliertransaction(Request $request){
+        $data=SupplierTransaction::where('supplier_id',$request->id)->orderBy('id','DESC')->paginate(30);
+        return SupplierTransactionResource::collection($data);
+    }
+    public function suppliertransactionrequest(){
+        $data=SupplierTransaction::where('status','Pending')->orderBy('id','DESC')->paginate(30);
+        return SupplierTransactionResource::collection($data);
     }
 }

@@ -45,6 +45,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/supplier/edits',[SupplierController::class,'edits']);
     Route::post('/supplier/update',[SupplierController::class,'updates']);
     Route::post('/supplier/delete',[SupplierController::class,'delete']);
+    Route::post('/suppliertransaction',[SupplierController::class,'suppliertransaction']);
+    Route::get('/suppliertransactionrequest',[SupplierController::class,'suppliertransactionrequest']);
     // Customer
     Route::resource('/getcustomer',CustomerController::class);
     Route::post('/customer/edits',[CustomerController::class,'edits']);
@@ -72,4 +74,7 @@ Route::middleware('auth:api')->group(function () {
 
     //Transaction
     Route::get('/transaction',[TransactionController::class,'index']);
+    Route::post('/transaction/approve',[TransactionController::class,'approve']);
+    Route::post('/transaction/delete',[TransactionController::class,'delete']);
+    Route::get('/pendingtransaction',[TransactionController::class,'pendingtransaction']);
 });

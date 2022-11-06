@@ -4,12 +4,9 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-6">
-                        Transaction List
+                        Pending Transaction List
                     </div>
                     <div class="col-md-6 text-end">
-                        <router-link to="/admin/product/create" class="btn btn-primary">
-                            Create New
-                        </router-link>
                     </div>
                 </div>
                 
@@ -27,6 +24,7 @@
                             <th>Credit</th>
                             <th>Debit</th>
                             <th>Status</th>
+                            <th>Approve/Reject</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,6 +59,11 @@
                             <td>{{item.credit}}</td>
                             <td>{{item.debit}}</td>
                             <td><span class="badge badge-danger">{{item.status}}</span></td>
+                            <td>
+                                <a class="btn btn-primary m-1" @click="accepttransaction(item.id)">Accept</a>
+                                <a class="btn btn-danger m-1" @click="deletetransaction(item.id)"> Delete</a>
+
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -80,7 +83,7 @@ export default{
         }
     },
     created(){
-        axios.get('/api/transaction').then(response=>{
+        axios.get('/api/pendingtransaction').then(response=>{
             console.log(response.data);
             this.items=response.data;
         }).catch(error=>{
@@ -89,13 +92,13 @@ export default{
     },
     methods:{
         getResults(page = 1) {
-            axios.get('/api/transaction?page=' + page)
+            axios.get('/api/pendingtransaction?page=' + page)
                 .then(response => {
                     this.items = response.data;
                 });
         },
         creates(){
-            axios.get('/api/getproduct').then(response=>{
+            axios.get('/api/pendingtransaction').then(response=>{
                 console.log(response.data);
                 this.items=response.data;
             }).catch(error=>{
@@ -105,6 +108,24 @@ export default{
         deletes(id){
             const data={'id':id}
             axios.post('/api/product/delete',data).then(response=>{
+                console.log(response);
+                this.creates();
+            }).catch(error=>{
+                console.log(error)
+            });
+        },
+        accepttransaction(id){
+            const data={'id':id}
+            axios.post('/api/transaction/approve',data).then(response=>{
+                console.log(response);
+                this.creates();
+            }).catch(error=>{
+                console.log(error)
+            });
+        },
+        deletetransaction(id){
+            const data={'id':id}
+            axios.post('/api/transaction/delete',data).then(response=>{
                 console.log(response);
                 this.creates();
             }).catch(error=>{
