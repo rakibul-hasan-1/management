@@ -1,15 +1,31 @@
 <template>
+<div class="breadcrumb flex items-end border-b border-gray-300 pb-4 mb-6">
+    <p class="text-xl mr-1 font-semibold mr-2">Transaction List</p>
+    <ul>
+        <li class="border-r border-gray-400 inline pr-2 dark:text-gray-400">Transaction</li>
+        <li class="inline pl-2 dark:text-gray-400">Transaction List</li>
+    </ul>
+</div>
     <div class="grid grid-cols-1 md:grid-cols-1 lg:grif-cols-1 xl:grid-cols-1 gap-4">
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-md-6">
-                        Transaction List
+                    <div class="col-md-6 d-flex flex-wrap justify-content-between align-items-center">
+                        <div class="form-group">
+                            <label for="">From</label>
+                            <input type="date" class="form-control" v-model="from" />
+                        </div>
+                        <div class="form-group">
+                            <label for="">To</label>
+                            <input type="date" class="form-control" v-model="to" />
+                        </div>
+                        <div class="form-group">
+                            <label for=""></label>
+                            <button type="button" class="btn btn-info bg-info" @click="filter()">Filter</button>
+                        </div>
                     </div>
                     <div class="col-md-6 text-end">
-                        <router-link to="/admin/product/create" class="btn btn-primary">
-                            Create New
-                        </router-link>
+                        <router-link to="/admin/transaction/create" class="btn btn-primary">Create</router-link>
                     </div>
                 </div>
                 
@@ -60,7 +76,10 @@
                             </td>
                             <td>{{item.credit}}</td>
                             <td>{{item.debit}}</td>
-                            <td><span class="badge badge-danger">{{item.status}}</span></td>
+                            <td>
+                                <span v-if="item.status == 'Pending'" class="badge badge-danger">{{item.status}}</span>
+                                <span v-else class="badge badge-warning">{{item.status}}</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -76,7 +95,9 @@ export default{
     data(){
         return{
             items:[],
-            id:null
+            id:null,
+            from:null,
+            to:null,
         }
     },
     created(){
@@ -110,6 +131,15 @@ export default{
             }).catch(error=>{
                 console.log(error)
             });
+        },
+        filter(){
+            const data={'from':this.from,'to':this.to};
+            console.log(data);
+            axios.post('/api/transactionfilter',data).then(response=>{
+                this.items = response.data;
+            }).catch(error=>{
+                console.log(error)
+            });
         }
     }
 }
@@ -119,7 +149,7 @@ export default{
     background-color:#fb03031f;
 }
 .Credit{
-    background-color:blue;
+    background-color:#18fd0d87;
 }
 .badge-warning {
     color: #212529;

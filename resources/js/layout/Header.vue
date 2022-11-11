@@ -19,6 +19,7 @@ const sideBarToggle = () => {
 }
 function logout(){
     localStorage.removeItem('token');
+    localStorage.removeItem('type');
     router.push('/signIn')
 }
 </script>
@@ -126,7 +127,7 @@ function logout(){
 
             
 
-            <HeaderSearch />
+            <!-- <HeaderSearch /> -->
         </div>
         <div class="flex items-center">
 
@@ -148,128 +149,9 @@ function logout(){
                     </MenuButton>
                 </div>
 
-                <MenuItems
-                    class="
-                        absolute
-                        right-0
-                        w-40
-                        mt-2
-                        overflow-hidden
-                        origin-top-right
-                        bg-white
-                        rounded-md
-                        custom-box-shadow
-                        focus:outline-none
-                    "
-                >
-                    <div class="">
-                        <MenuItem>
-                            <div class="flex justify-between flex-wrap">
-                                <a
-                                    class="
-                                        hover:bg-purple-500 hover:text-white
-                                        text-gray-600
-                                        p-4
-                                        inline-flex
-                                        flex-col
-                                        items-center
-                                        rounded
-                                        w-20
-                                    "
-                                    href="#"
-                                >
-                                    <i class="i-Shop-4 text-2xl"> </i>Home
-                                </a>
-                                <a
-                                    class="
-                                        hover:bg-purple-500 hover:text-white
-                                        text-gray-600
-                                        p-4
-                                        inline-flex
-                                        flex-col
-                                        items-center
-                                        rounded
-                                        w-20
-                                    "
-                                    href="#"
-                                >
-                                    <i class="i-Library text-2xl"></i>UI Kits
-                                </a>
-                                <a
-                                    class="
-                                        hover:bg-purple-500 hover:text-white
-                                        text-gray-600
-                                        p-4
-                                        inline-flex
-                                        flex-col
-                                        items-center
-                                        rounded
-                                        w-20
-                                    "
-                                    href="#"
-                                >
-                                    <i class="i-Drop text-2xl"></i>Apps
-                                </a>
-                                <a
-                                    class="
-                                        hover:bg-purple-500 hover:text-white
-                                        text-gray-600
-                                        p-4
-                                        inline-flex
-                                        flex-col
-                                        items-center
-                                        rounded
-                                        w-20
-                                    "
-                                    href="#"
-                                >
-                                    <i
-                                        class="
-                                            i-File-Clipboard-File--Text
-                                            text-2xl
-                                        "
-                                    >
-                                    </i
-                                    >Forms
-                                </a>
-                                <a
-                                    class="
-                                        hover:bg-purple-500 hover:text-white
-                                        text-gray-600
-                                        p-4
-                                        inline-flex
-                                        flex-col
-                                        items-center
-                                        rounded
-                                        w-20
-                                    "
-                                    href="#"
-                                >
-                                    <i class="i-Checked-User text-2xl"></i
-                                    >Sessions
-                                </a>
-                                <a
-                                    class="
-                                        hover:bg-purple-500 hover:text-white
-                                        text-gray-600
-                                        p-4
-                                        inline-flex
-                                        flex-col
-                                        items-center
-                                        rounded
-                                        w-20
-                                    "
-                                    href="#"
-                                >
-                                    <i class="i-Ambulance text-2xl"></i>Support
-                                </a>
-                            </div>
-                        </MenuItem>
-                    </div>
-                </MenuItems>
             </Menu>
             <!-- notification-dropdown  -->
-            <Menu as="div" class="relative inline-block text-left">
+            <!-- <Menu as="div" class="relative inline-block text-left">
                 <div>
                     <MenuButton
                         class="
@@ -350,7 +232,7 @@ function logout(){
                         </MenuItem>
                     </div>
                 </MenuItems>
-            </Menu>
+            </Menu> -->
 
             <!-- profile-dropdown  -->
             <Menu as="div" class="relative inline-block text-left">

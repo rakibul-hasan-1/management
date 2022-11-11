@@ -139,20 +139,20 @@ class ProductController extends Controller
         $data->rack_id=$request->rack_id;
         $data->cost=$request->cost;
         $data->save();
-        $transaction=Transaction::where('product_id',$request->id)->where('supplier_id',$request->supplier_id)->first();
-        if(isset($transaction)){
+        // $transaction=Transaction::where('product_id',$request->id)->where('supplier_id',$request->supplier_id)->first();
+        // if(isset($transaction)){
 
-        }else{
-            $transaction=new Transaction();
-        }
-        $transaction->type="Debit";
-        $transaction->credit=0;
-        $transaction->debit=$request->cost;
-        $transaction->for="Product Cost";
-        $transaction->supplier_id=$request->supplier_id;
-        $transaction->product_id=$data->id;
-        $transaction->status="Pending";
-        $transaction->save();
+        // }else{
+        //     $transaction=new Transaction();
+        // }
+        // $transaction->type="Debit";
+        // $transaction->credit=0;
+        // $transaction->debit=$request->cost;
+        // $transaction->for="Product Cost";
+        // $transaction->supplier_id=$request->supplier_id;
+        // $transaction->product_id=$data->id;
+        // $transaction->status="Pending";
+        // $transaction->save();
         return response()->json([
             'success'=>true,
             'data'=>$data

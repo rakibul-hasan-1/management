@@ -81,6 +81,7 @@ export default{
             axios.post("/api/login",data).then(response => {
                 console.log(response.data);
                 localStorage.setItem("token",response.data.token);
+                localStorage.setItem("type",response.data.type);
                 router.push('/dashboards')
             }).catch(error=>{
                 console.log("error");

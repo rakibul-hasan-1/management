@@ -23,23 +23,23 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-6 text-end">
+                 <div class="col-6 text-end">
                   <div class="mb-4">
                     <div class="text-end" >
                       <h4 class="invoice-color mb-2 mt-md-2">
-                        Invoice #{{order.order_no}}
+                        Invoice # {{order['order_no']}}
                       </h4>
                       <ul class="list list-unstyled mb-0">
                         <li>
                           Date:
                           <span class="font-weight-semibold"
-                            >{{order.date}}</span
+                            >{{order['date']}}</span
                           >
                         </li>
                       </ul>
                   </div>
                   </div>
-                </div>               
+                </div>                
               </div>             
             </div>
             <div class="table-responsive">
@@ -73,7 +73,7 @@
                 <div class="col-4"></div>
                 <div class="col-4">
                   <div class="d-md-flex flex-md-wrap">
-                    <div class="pt-2 mb-3 wmin-md-400 ml-auto">
+                    <div class="pt-2 mb-3 w-100 ml-auto">
                       <div class="table-responsive">
                         <table class="table">
                           <tbody>
@@ -91,6 +91,24 @@
                               <th class="text-left">Total:</th>
                               <td class="text-right text-primary">
                                 <h5 class="font-weight-semibold">{{total}}</h5>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th class="text-left">Previous Due: (Invoice : #{{order.previous_order_id}})</th>
+                              <td class="text-right text-primary">
+                                <h5 class="font-weight-semibold">{{order.previous_due}}</h5>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th class="text-left">Paid:</th>
+                              <td class="text-right text-primary">
+                                <h5 class="font-weight-semibold">{{order.paid}}</h5>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th class="text-left">Due:</th>
+                              <td class="text-right text-primary">
+                                <h5 class="font-weight-semibold">{{order.due}}</h5>
                               </td>
                             </tr>
                           </tbody>
@@ -140,7 +158,7 @@ export default{
         const id = route.params.id
         const data={'id':id}
         axios.post('/api/getorder',data).then(response=>{
-            console.log(response);
+            console.log('orderss',response.data.data);
             this.order=response.data.data
             this.subtotal=response.data.data.subtotal
             this.discount=response.data.data.discount

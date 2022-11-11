@@ -8,7 +8,9 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Variant;
 use App\Models\Product;
+use App\Models\Transaction;
 use App\Models\Customer;
+use App\Models\CustomerTransaction;
 use Carbon\Carbon;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\VariantResource;
@@ -26,8 +28,18 @@ class OrderController extends Controller
         return OrderResource::collection($data);
     }
     public function getvariantbycode(Request $request){
-        $data=Variant::where('color_code',$request->color_code)->where('status','Approved')->get();
-        $data=VariantResource::collection($data);
+        $name=$request->name;
+        $color_code=$request->color_code;
+        $q = Variant::query();
+        if(isset($name)){
+            $q=$q->where('name','LIKE','%'.$name.'%');
+        }
+        if(isset($color_code)){
+            $q=$q->where('color_code','LIKE','%'.$color_code.'%');
+        }
+        $q=$q->where('status','Approved')->get();
+        // $data=Variant::where('color_code',$request->color_code)->where('status','Approved')->get();
+        $data=VariantResource::collection($q);
         return response()->json([
             'success'=>true,
             'data'=>$data
@@ -35,9 +47,17 @@ class OrderController extends Controller
     }
     public function searchcustomer(Request $request){
         $data=Customer::where('phone',$request->phone)->first();
+        $customertransaction=CustomerTransaction::where('customer_id',$data->id)->orderBy('id','DESC')->first();
+        if(isset($customertransaction)){
+            $customertransaction=$customertransaction;
+        }else{
+            $customertransaction['invoice_id']=null;
+            $customertransaction['due']=0;
+        }
         return response()->json([
             'success'=>true,
-            'data'=>$data
+            'data'=>$data,
+            'transaction'=>$customertransaction
         ]);
     }
     public function getunitss(Request $request){
@@ -67,6 +87,16 @@ class OrderController extends Controller
         $order->subtotal=$request->subtotal;
         $order->discount=$request->discount;
         $order->total=$request->total;
+        $order->paid=$request->paid;
+        if(isset($request->transaction['id'])){
+            $order->previous_invoice_id=$request->transaction['invoice_id'];
+            $order->previous_due=$request->transaction['due'];
+        }else{
+            $order->previous_invoice_id=null;
+            $order->previous_due=0;
+        }
+        $order->due=$request->due;
+        $order->user_id=auth()->user()->id;
         $order->status="Complete";
         $order->save();
 
@@ -95,6 +125,27 @@ class OrderController extends Controller
                 $var->save();
             }
         }
+        $transaction=new Transaction;
+        $transaction->type="Credit";
+        $transaction->credit=$request->total;
+        $transaction->debit=0;
+        $transaction->for="Order Earn";
+        $transaction->supplier_id=null;
+        $transaction->customer_id=$customer_id;
+        $transaction->order_id=$order->id;
+        $transaction->status="Pending";
+        $transaction->save();
+
+        $customer_transaction=new CustomerTransaction();
+        $customer_transaction->transaction_id=$transaction->id;
+        $customer_transaction->customer_id=$customer_id;
+        $customer_transaction->invoice_id=$order->order_no;
+        $customer_transaction->type='Credit';
+        $customer_transaction->total=$order->paid+$order->due;
+        $customer_transaction->paid=$order->paid;
+        $customer_transaction->due=$order->due;
+        $customer_transaction->status='Pending';
+        $customer_transaction->save();
         return $order;
     }
     public function getorder(Request $request){
@@ -112,5 +163,10 @@ class OrderController extends Controller
             'success'=>true,
             'data'=>$data
         ]);
+    }
+    public function deleteorder(Request $request){
+        $order=Order::find($request->id);
+        $order->delete();
+        return 1;
     }
 }

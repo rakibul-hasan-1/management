@@ -2,6 +2,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+import axios from 'axios';
 
 let store = useStore()
 let route = useRoute()
@@ -12,6 +13,15 @@ let toggleSubMenu = (e) => {
 }
 
 onMounted(() => {
+    // axios.get('/api/getuserdetails').then(response=>{
+    //     console.log(response.data);
+    //     store.state.user=response.data;
+    //     localStorage.setItem('type',response.data.type);
+    //     // console.log('user',store.state.user.type);
+    //     store.state.type=response.data.type;
+    // }).catch(error=>{
+    //     console.log(error)
+    // });
     window.addEventListener('resize', handleWindowResize)
 })
 // beforeDestroy
@@ -31,6 +41,12 @@ let handleWindowResize = () => {
             store.commit('largeSidebar/toggleSidebarProperties')
         }
     }
+}
+var type=localStorage.getItem('type');
+// console.log('type',type);
+function logout(){
+    localStorage.removeItem('token');
+    localStorage.removeItem('type');
 }
 </script>
 <template>
@@ -68,6 +84,7 @@ let handleWindowResize = () => {
                             to="/admin/godown"
                             tag="li"
                             class="nav-item"
+                            v-if="type=='Admin' || type=='staff' || type=='Manager'"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-Wallet text-3xl"></i>
@@ -78,6 +95,7 @@ let handleWindowResize = () => {
                             to="/admin/rack"
                             tag="li"
                             class="nav-item"
+                            v-if="type=='Admin' || type=='staff' || type=='Manager'"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-Wallet text-3xl"></i>
@@ -88,6 +106,7 @@ let handleWindowResize = () => {
                             to="/admin/supplier"
                             tag="li"
                             class="nav-item"
+                            v-if="type=='Admin' || type=='Manager'"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-Wallet text-3xl"></i>
@@ -98,6 +117,7 @@ let handleWindowResize = () => {
                             to="/admin/customer"
                             tag="li"
                             class="nav-item"
+                            v-if="type=='Admin' || type=='staff' || type=='Manager'"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-Wallet text-3xl"></i>
@@ -108,6 +128,7 @@ let handleWindowResize = () => {
                             to="/admin/product"
                             tag="li"
                             class="nav-item"
+                            v-if="type=='Admin' || type=='staff' || type=='Manager'"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-Wallet text-3xl"></i>
@@ -118,6 +139,7 @@ let handleWindowResize = () => {
                             to="/admin/product/pending"
                             tag="li"
                             class="nav-item"
+                            v-if="type=='Admin'"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-Wallet text-3xl"></i>
@@ -128,6 +150,7 @@ let handleWindowResize = () => {
                             to="/admin/order/create"
                             tag="li"
                             class="nav-item"
+                            v-if="type=='Admin' || type=='staff' || type=='Manager'"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-Wallet text-3xl"></i>
@@ -138,6 +161,7 @@ let handleWindowResize = () => {
                             to="/admin/order"
                             tag="li"
                             class="nav-item"
+                            v-if="type=='Admin' || type=='staff' || type=='Manager'"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-Wallet text-3xl"></i>
@@ -148,6 +172,7 @@ let handleWindowResize = () => {
                             to="/admin/suppliertransaction/pending"
                             tag="li"
                             class="nav-item"
+                            v-if="type=='Admin' || type=='Manager'"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-Wallet text-3xl"></i>
@@ -158,6 +183,7 @@ let handleWindowResize = () => {
                             to="/admin/transaction/pending"
                             tag="li"
                             class="nav-item"
+                            v-if="type=='Admin' || type=='Manager'"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-Wallet text-3xl"></i>
@@ -168,6 +194,7 @@ let handleWindowResize = () => {
                             to="/admin/transaction"
                             tag="li"
                             class="nav-item"
+                            v-if="type=='Admin' || type=='Manager'"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-Wallet text-3xl"></i>
@@ -175,37 +202,26 @@ let handleWindowResize = () => {
                             </div>
                         </router-link>
                         <router-link
-                            to="/profile/profileTwo"
+                            to="/admin/user"
                             tag="li"
                             class="nav-item"
+                            v-if="type=='Admin'"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-Find-User text-3xl"></i>
-                                <p>Profile</p>
-                            </div>
-                        </router-link>
-                        <router-link to="/signIn" tag="li" class="nav-item">
-                            <div class="nav-item-hold">
-                                <i class="i-Checked-User text-3xl"></i>
-                                <p>Sign In</p>
-                            </div>
-                        </router-link>
-                        <router-link to="/signUp" tag="li" class="nav-item">
-                            <div class="nav-item-hold">
-                                <i class="i-Checked-User text-3xl"></i>
-                                <p>Sign Up</p>
+                                <p>User</p>
                             </div>
                         </router-link>
 
                         <a
-                            href="https://aatorx-vue-doc.vercel.app/"
+                            href="#"
                             tag="a"
                             class="nav-item"
-                            target="_blank"
+                            @click="logout()"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-File-Word text-3xl"></i>
-                                <p>Doc</p>
+                                <p>Logout</p>
                             </div>
                         </a>
                     </ul>

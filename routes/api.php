@@ -11,6 +11,8 @@ use App\Http\Controllers\api\CustomerController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\OrderController;
 use App\Http\Controllers\api\TransactionController;
+use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\api\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +37,11 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/godown/update',[GodownController::class,'updates']);
     Route::post('/godown/delete',[GodownController::class,'delete']);
 
+    //Dashboard
+    Route::get('/getstock',[DashboardController::class,'getstock']);
+    Route::get('/getrecentorder',[DashboardController::class,'getrecentorder']);
+    Route::get('/detdashboarddetails',[DashboardController::class,'detdashboarddetails']);
+
     // Rack
     Route::resource('/getrack',RackController::class);
     Route::post('/rack/edits',[RackController::class,'edits']);
@@ -45,8 +52,13 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/supplier/edits',[SupplierController::class,'edits']);
     Route::post('/supplier/update',[SupplierController::class,'updates']);
     Route::post('/supplier/delete',[SupplierController::class,'delete']);
+    Route::post('/suppliertransaction/delete',[SupplierController::class,'suppliertransaction']);
     Route::post('/suppliertransaction',[SupplierController::class,'suppliertransaction']);
     Route::get('/suppliertransactionrequest',[SupplierController::class,'suppliertransactionrequest']);
+    Route::post('/suppliertransaction/approve',[SupplierController::class,'suppliertransactionapprove']);
+    Route::post('/createsuppliertransaction',[SupplierController::class,'createsuppliertransaction']);
+    Route::post('/suppliertransactionfilter',[SupplierController::class,'suppliertransactionfilter']);
+    Route::post('/supplierpendingtransactionfilter',[SupplierController::class,'supplierpendingtransactionfilter']);
     // Customer
     Route::resource('/getcustomer',CustomerController::class);
     Route::post('/customer/edits',[CustomerController::class,'edits']);
@@ -71,10 +83,21 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/placeorder',[OrderController::class,'placeorder']);
     Route::post('/getorder',[OrderController::class,'getorder']);
     Route::Post("/getvariantbyorder",[OrderController::class,'getvariantbyorder']);
+    Route::post('/deleteorder',[OrderController::class,'deleteorder']);
 
     //Transaction
     Route::get('/transaction',[TransactionController::class,'index']);
     Route::post('/transaction/approve',[TransactionController::class,'approve']);
     Route::post('/transaction/delete',[TransactionController::class,'delete']);
     Route::get('/pendingtransaction',[TransactionController::class,'pendingtransaction']);
+    Route::post('/transactionfilter',[TransactionController::class,'transactionfilter']);
+    Route::post('/pendingtransactionfilter',[TransactionController::class,'pendingtransactionfilter']);
+    Route::post('/createtransaction',[TransactionController::class,'createtransaction']);
+
+    //User
+    Route::get('/getuser',[UserController::class,'index']);
+    Route::post('/createuser',[UserController::class,'createuser']);
+    Route::post('/getuserbyid',[UserController::class,'getuser']);
+    Route::post('/updateuser',[UserController::class,'updateuser']);
+    Route::get('/getuserdetails',[UserController::class,'getuserdetails']);
 });

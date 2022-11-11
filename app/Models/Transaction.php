@@ -27,4 +27,7 @@ class Transaction extends Model
     public function suppliertransaction(){
         return $this->hasOne(SupplierTransaction::class);
     }
+    public function customertransaction(){
+        return $this->hasOne(CustomerTransaction::class);
+    }
 }

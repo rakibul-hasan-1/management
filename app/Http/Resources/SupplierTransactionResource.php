@@ -20,6 +20,7 @@ class SupplierTransactionResource extends JsonResource
             'transaction'=>new TransactionResource($this->transaction),
             'supplier'=>new SupplierResource($this->supplier),
             'type'=>$this->type,
+            'ptotal'=>$this->previous_total,
             'total'=>$this->total,
             'paid'=>$this->paid,
             'due'=>$this->due,

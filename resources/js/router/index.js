@@ -177,7 +177,38 @@ const routes = [
                         name: 'transaction',
                         component: () =>
                             import('../views/transaction/Index.vue'),
-                    }
+                    },
+                    {
+                        path: 'transaction/create',
+                        name: 'transactioncreate',
+                        component: () =>
+                            import('../views/transaction/Create.vue'),
+                    },
+                    {
+                        path: 'user',
+                        name: 'userlist',
+                        component: () =>
+                            import('../views/user/Index.vue'),
+
+                    },
+                    {
+                        path: 'user/create',
+                        name: 'usercreate',
+                        component: () =>
+                            import('../views/user/Create.vue'),
+
+                    },
+                    {
+                        path: 'user/edit/:id',
+                        name: 'useredit',
+                        component: () =>
+                            import('../views/user/Edit.vue'),
+                    },
+                    {
+                        path: 'order/invoice/:id',
+                        name: 'orderinvoiceview',
+                        component: () => import('../views/order/Invoice.vue'),
+                    },
                 ],
             },
             
@@ -199,11 +230,7 @@ const routes = [
             },
         ],
     },
-    {
-        path: '/admin/order/invoice/:id',
-        name: 'orderinvoiceview',
-        component: () => import('../views/order/Invoice.vue'),
-    },
+    
 
     { path: '/signIn', component: SignIn },
     { path: '/signUp', component: SignUp },
