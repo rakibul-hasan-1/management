@@ -64,6 +64,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/customer/edits',[CustomerController::class,'edits']);
     Route::post('/customer/update',[CustomerController::class,'updates']);
     Route::post('/customer/delete',[CustomerController::class,'delete']);
+    Route::get('/customertransaction',[CustomerController::class,'customertransaction']);
+    Route::post('/customerindividualtransaction',[CustomerController::class,'customerindividualtransaction']);
+    Route::post('/customerindivudualtransactionfilter',[CustomerController::class,'customerindivudualtransactionfilter']);
+    Route::post('/customertransactionfilter',[CustomerController::class,'customertransactionfilter']);
     // Product
     Route::resource('/getproduct',ProductController::class);
     Route::post('/product/edits',[ProductController::class,'edits']);

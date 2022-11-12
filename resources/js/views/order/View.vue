@@ -127,6 +127,24 @@
                                             <input type="number" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-model="total" readonly/>
                                         </div>
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="">Previous Due {{transaction.invoice_id}}</label>
+                                            <input type="number" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-model="transaction.due" readonly/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="">Paid</label>
+                                            <input type="number" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-on:change="changepaid" v-model="paid"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="">Due</label>
+                                            <input type="number" class="focus:outline-none w-full border border-gray px-3 py-2 my-3 rounded" v-model="due" readonly/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -149,8 +167,14 @@ export default{
                 'email':null,
                 'address':null
             },
+            transaction:{
+                'due':0,
+                'invoice_id':null,
+            },
             color_code:null,
             items:[],
+            paid:0,
+            due:0,
             subtotal:0,
             discount:0,
             total:0,
@@ -166,8 +190,12 @@ export default{
             this.subtotal=response.data.data.subtotal
             this.discount=response.data.data.discount
             this.total=response.data.data.total
+            this.paid=response.data.data.paid
+            this.due=response.data.data.due
             this.id=id
             this.customer=response.data.data.customer
+            this.transaction.due=response.data.data.previous_due
+            this.transaction.invoice_id=response.data.data.previous_invoice_id
         }).catch(error=>{
             console.log(error)
         });

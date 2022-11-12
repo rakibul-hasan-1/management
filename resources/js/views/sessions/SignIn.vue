@@ -24,6 +24,7 @@
                           </defs>
                       </svg>
                           <h1 class="mb-3 text-lg">Sign In </h1>
+                          <div class="alert alert-danger mb-3" v-if="error">{{error}}</div>
                           <form action="">
                               <div class="mb-3">
                                   <label class="text-xs text-gray-600" for="">Email Address</label>
@@ -72,8 +73,11 @@ import axios from 'axios';
 import router from '../../router';
 export default{
     data(){
-        email:null;
-        password:null
+        return{
+            email:null,
+            password:null,
+            error:null
+        }
     },
     methods:{
         signin(){
@@ -85,6 +89,7 @@ export default{
                 router.push('/dashboards')
             }).catch(error=>{
                 console.log("error");
+                this.error="Cordential Not Match";
             });
             console.log('SignIn');
         },

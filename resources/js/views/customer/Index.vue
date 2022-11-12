@@ -43,6 +43,7 @@
                             <td>{{item.rank}}</td>
                             <td>{{item.status}}</td>
                             <td>
+                                <router-link :to="{ name: 'customertransactionlist', params: { id: item.id }}" class="btn btn-primary mx-2">Transaction</router-link>
                                 <router-link :to="{ name: 'customeredit', params: { id: item.id }}" class="btn btn-primary mx-2">Edit</router-link>
                                 <a @click="deletes(item.id)" class="btn btn-danger">Delete</a>
                             </td>

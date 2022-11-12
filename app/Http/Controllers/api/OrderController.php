@@ -19,7 +19,11 @@ use App\Http\Resources\OrderItemResource;
 class OrderController extends Controller
 {
     public function index(){
-        $data=Order::orderBy('id','DESC')->paginate(20);
+        if(auth()->user()->type=='Staff'){
+            $data=Order::where('user_id',auth()->user()->id)->where('manager_clearence','Pending')->orderBy('id','DESC')->paginate(20);
+        }else{
+            $data=Order::orderBy('id','DESC')->paginate(20);
+        }
         // $data=OrderResource::collection($data);
         // return response()->json([
         //     'success'=>true,
@@ -127,7 +131,7 @@ class OrderController extends Controller
         }
         $transaction=new Transaction;
         $transaction->type="Credit";
-        $transaction->credit=$request->total;
+        $transaction->credit=$request->paid;
         $transaction->debit=0;
         $transaction->for="Order Earn";
         $transaction->supplier_id=null;
@@ -144,7 +148,7 @@ class OrderController extends Controller
         $customer_transaction->total=$order->paid+$order->due;
         $customer_transaction->paid=$order->paid;
         $customer_transaction->due=$order->due;
-        $customer_transaction->status='Pending';
+        $customer_transaction->status='Approved';
         $customer_transaction->save();
         return $order;
     }

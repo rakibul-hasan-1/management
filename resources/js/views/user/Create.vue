@@ -25,7 +25,7 @@
                 <div class="form-group pb-4">
                     <label for="">Type</label>
                     <select class="form-select" v-model="type">
-                        <option value="staff">Staff</option>
+                        <option value="Staff">Staff</option>
                         <option value="Manager">Manager</option>
                         <option value="Admin">Admin</option>
                     </select>

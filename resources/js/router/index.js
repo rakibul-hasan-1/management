@@ -113,6 +113,18 @@ const routes = [
                             import('../views/customer/Edit.vue'),
                     },
                     {
+                        path: 'customer/transaction/:id',
+                        name: 'customertransactionlist',
+                        component: () =>
+                            import('../views/customer/TransactionList.vue'),
+                    },
+                    {
+                        path: 'customertransaction',
+                        name: 'customertransaction',
+                        component: () =>
+                            import('../views/customer/Transaction.vue'),
+                    },
+                    {
                         path: 'product',
                         name: 'product',
                         component: () =>

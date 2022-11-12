@@ -382,7 +382,7 @@ export default{
             axios.post('/api/placeorder',data).then(response=>{
                 console.log("placeorder",response.data);
                 if(response.data){
-                    router.push({ path: '/admin/order' });
+                    router.push({ path: '/admin/order/invoice/'+response.data.id });
                 }
             }).catch(error=>{
                 console.log(error)

@@ -1,134 +1,144 @@
 <template>
     <div class="grid grid-cols-1 md:grid-cols-1 lg:grif-cols-1 xl:grid-cols-1 gap-4 w-100">
-        <div class="container">
-      <div class="row">
-        <div class="col-md-12 text-right mb-3">
-        </div>
-        <div class="col-md-12">
-          <div class="card" id="invoice">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-6">
-                  <div class="d-md-flex flex-md-wrap">
-                    <div class="mb-4 mb-md-2 text-left">
-                      <span class="text-muted">Invoice To:</span>
-                      <ul class="list list-unstyled mb-0">
-                        <li>
-                          <h5 class="my-2">{{customer.name}}</h5>
-                        </li>
-                        <li>{{customer.phone}}</li>
-                        <li>{{customer.email}}</li>
-                        <li>{{customer.address}}</li>
-                      </ul>
+      <div class="container" id="printable">
+        <div class="row">
+          <div class="col-md-12 text-right mb-3">
+          </div>
+          <div class="col-md-12">
+            <div class="card" id="invoice">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 text-center">
+                    <img class="mx-auto" src="https://ramgroup.ltd/application/storage/app/settings//ZEX91TcQ70P3iPmKigYKMi7pr8HvnfLXu4WWL4Df.png" width="200" />
+                  </div>
+                  <div class="col-6">
+                    <div class="d-md-flex flex-md-wrap">
+                      <div class="mb-4 mb-md-2 text-left">
+                        <span class="text-muted">Invoice To:</span>
+                        <ul class="list list-unstyled mb-0">
+                          <li>
+                            <h5 class="my-2">{{customer.name}}</h5>
+                          </li>
+                          <li>{{customer.phone}}</li>
+                          <li>{{customer.email}}</li>
+                          <li>{{customer.address}}</li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                </div>
-                 <div class="col-6 text-end">
-                  <div class="mb-4">
-                    <div class="text-end" >
-                      <h4 class="invoice-color mb-2 mt-md-2">
-                        Invoice # {{order['order_no']}}
-                      </h4>
-                      <ul class="list list-unstyled mb-0">
-                        <li>
-                          Date:
-                          <span class="font-weight-semibold"
-                            >{{order['date']}}</span
-                          >
-                        </li>
-                      </ul>
-                  </div>
-                  </div>
-                </div>                
-              </div>             
-            </div>
-            <div class="table-responsive">
-              <table class="table table-lg table-striped">
-                <thead class="bg-dark text-light text-center">
-                  <tr>
-                    <th>Name</th>
-                    <th>Color Code</th>
-                    <th>Unit</th>
-                    <th>Unit Price</th>
-                    <th>Total</th>
-                  </tr>
-                </thead>
-                <tbody class="text-center">
-                  <tr v-for="(item,index) in items" :key="index">
-                    <td>
-                      {{item.variant.name}}
-                    </td>
-                    <td>{{item.variant.color_code}}</td>
-                    <td v-if="item.volume">{{item.volume}} KG</td>
-                    <td v-if="item.cartoon">{{item.cartoon}} Pieces</td>
-                    <td><span class="font-weight-semibold">{{item.variant.unit_price}}</span></td>
-                    <td><span class="font-weight-semibold">{{item.total}}</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4"></div>
-                <div class="col-4">
-                  <div class="d-md-flex flex-md-wrap">
-                    <div class="pt-2 mb-3 w-100 ml-auto">
-                      <div class="table-responsive">
-                        <table class="table">
-                          <tbody>
-                            <tr>
-                              <th class="text-left">Subtotal:</th>
-                              <td class="text-right">{{subtotal}}</td>
-                            </tr>
-                            <tr>
-                              <th class="text-left">
-                                Discount: <span class="font-weight-normal"></span>
-                              </th>
-                              <td class="text-right">{{discount}}</td>
-                            </tr>
-                            <tr>
-                              <th class="text-left">Total:</th>
-                              <td class="text-right text-primary">
-                                <h5 class="font-weight-semibold">{{total}}</h5>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th class="text-left">Previous Due: (Invoice : #{{order.previous_order_id}})</th>
-                              <td class="text-right text-primary">
-                                <h5 class="font-weight-semibold">{{order.previous_due}}</h5>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th class="text-left">Paid:</th>
-                              <td class="text-right text-primary">
-                                <h5 class="font-weight-semibold">{{order.paid}}</h5>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th class="text-left">Due:</th>
-                              <td class="text-right text-primary">
-                                <h5 class="font-weight-semibold">{{order.due}}</h5>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                  <div class="col-6 text-end">
+                    <div class="mb-4">
+                      <div class="text-end" >
+                        <h4 class="invoice-color mb-2 mt-md-2">
+                          Invoice # {{order.order_no}}
+                        </h4>
+                        <ul class="list list-unstyled mb-0">
+                          <li>
+                            Date:
+                            <span class="font-weight-semibold"
+                              >{{order.date}}</span
+                            >
+                          </li>
+                          <li>
+                            Sold By:
+                            <strong class="font-weight-bold"
+                              >Root Fashion Ltd.</strong
+                            >
+                          </li>
+                        </ul>
+                    </div>
+                    </div>
+                  </div>                
+                </div>             
+              </div>
+              <div class="table-responsive">
+                <table class="table table-lg table-striped">
+                  <thead class="bg-dark text-light text-center">
+                    <tr>
+                      <th>Name</th>
+                      <th>Color Code</th>
+                      <th>Unit</th>
+                      <th>Unit Price</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-center">
+                    <tr v-for="(item,index) in items" :key="index">
+                      <td>
+                        {{item.variant.name}}
+                      </td>
+                      <td>{{item.variant.color_code}}</td>
+                      <td v-if="item.volume">{{item.volume}} KG</td>
+                      <td v-if="item.cartoon">{{item.cartoon}} Pieces</td>
+                      <td><span class="font-weight-semibold">{{item.variant.unit_price}}</span></td>
+                      <td><span class="font-weight-semibold">{{item.total}}</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-4"></div>
+                  <div class="col-4"></div>
+                  <div class="col-4">
+                    <div class="d-md-flex flex-md-wrap">
+                      <div class="pt-2 mb-3 w-100 ml-auto">
+                        <div class="table-responsive">
+                          <table class="table">
+                            <tbody>
+                              <tr>
+                                <th class="text-left">Subtotal:</th>
+                                <td class="text-right">{{subtotal}}</td>
+                              </tr>
+                              <tr>
+                                <th class="text-left">
+                                  Discount: <span class="font-weight-normal"></span>
+                                </th>
+                                <td class="text-right">{{discount}}</td>
+                              </tr>
+                              <tr>
+                                <th class="text-left">Total:</th>
+                                <td class="text-right text-primary">
+                                  <h5 class="font-weight-semibold">{{total}}</h5>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th class="text-left">Previous Due: <br>(Invoice : #{{order.previous_invoice_id}})</th>
+                                <td class="text-right text-primary">
+                                  <h5 class="font-weight-semibold">{{order.previous_due}}</h5>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th class="text-left">Paid:</th>
+                                <td class="text-right text-primary">
+                                  <h5 class="font-weight-semibold">{{order.paid}}</h5>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th class="text-left">Due:</th>
+                                <td class="text-right text-primary">
+                                  <h5 class="font-weight-semibold">{{order.due}}</h5>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                
               </div>
-              
-            </div>
-            <div class="card-footer text-center">
-              <span class="text-muted"
-                >Thanks for choosing us.</span
-              >
+              <div class="card-footer text-center">
+                <span class="text-muted"
+                  >Thanks for choosing us.</span
+                >
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <button type="button" class="btn btn-danger w-20 bg-danger text-light mx-auto" @click="printDiv('printable')">Print</button>
     </div>
 </template>
 <script>
@@ -150,7 +160,15 @@ export default{
             discount:0,
             total:0,
             id:null,
-            order:null,
+            order:{
+              id:null,
+              order_no:null,
+              date:null,
+              previous_due:0,
+              previous_invoice_id:null,
+              paid:0,
+              due:0,
+            },
         }
     },
     created(){
@@ -159,10 +177,16 @@ export default{
         const data={'id':id}
         axios.post('/api/getorder',data).then(response=>{
             console.log('orderss',response.data.data);
-            this.order=response.data.data
+            this.order.id=response.data.data.id
+            this.order.order_no=response.data.data.order_no
+            this.order.date=response.data.data.date
+            this.order.previous_due=response.data.data.previous_due
+            this.order.previous_invoice_id=response.data.data.previous_invoice_id
             this.subtotal=response.data.data.subtotal
             this.discount=response.data.data.discount
             this.total=response.data.data.total
+            this.order.paid=response.data.data.paid
+            this.order.due=response.data.data.due
             this.id=id
             this.customer=response.data.data.customer
         }).catch(error=>{
@@ -295,6 +319,16 @@ export default{
             }).catch(error=>{
                 console.log(error)
             });
+        },
+        printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
         }
     }
     

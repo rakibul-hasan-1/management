@@ -161,7 +161,7 @@ function logout(){
                             to="/admin/order"
                             tag="li"
                             class="nav-item"
-                            v-if="type=='Admin' || type=='staff' || type=='Manager'"
+                            v-if="type=='Admin' || type=='Staff' || type=='Manager'"
                         >
                             <div class="nav-item-hold">
                                 <i class="i-Wallet text-3xl"></i>
@@ -177,6 +177,17 @@ function logout(){
                             <div class="nav-item-hold">
                                 <i class="i-Wallet text-3xl"></i>
                                 <p>Supplier Transaction Request</p>
+                            </div>
+                        </router-link>
+                        <router-link
+                            to="/admin/customertransaction"
+                            tag="li"
+                            class="nav-item"
+                            v-if="type=='Admin' || type=='Manager'"
+                        >
+                            <div class="nav-item-hold">
+                                <i class="i-Wallet text-3xl"></i>
+                                <p>Customer Transaction</p>
                             </div>
                         </router-link>
                         <router-link

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CustomerTransactionResource;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\CustomerTransaction;
+use Carbon\Carbon;
 
 class CustomerController extends Controller
 {
@@ -134,5 +137,72 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function customertransaction(){
+        $data=CustomerTransaction::orderBy('id','DESC')->paginate(20);
+
+        return response()->json([
+            'success'=>true,
+            'data'=>CustomerTransactionResource::collection($data),
+        ]);
+    }
+    public function customerindividualtransaction(Request $request){
+        $data=CustomerTransaction::where('customer_id',$request->id)->orderBy('id','asc')->get();
+
+        return response()->json([
+            'success'=>true,
+            'data'=>CustomerTransactionResource::collection($data),
+        ]);
+    }
+    public function customerindivudualtransactionfilter(Request $request){
+        if(isset($request->from)){
+            $from=Carbon::parse($request->from);
+        }
+        if(isset($request->to)){
+            $to=Carbon::parse($request->to);
+        }
+        $id=$request->id;
+
+        $q = CustomerTransaction::query();
+        if(isset($from) && isset($to)){
+            $q=$q->whereBetween('created_at',[$from,$to]);
+        }else{
+            if(isset($from)){
+                $q=$q->whereDate('created_at',$from);
+            }
+            if(isset($to)){
+                $q=$q->whereDate('created_at',$to);
+            }
+        }
+        $data = $q->where('customer_id',$request->id)->orderBy('id','asc')->get();
+        return response()->json([
+            'success'=>true,
+            'data'=>CustomerTransactionResource::collection($data),
+        ]);
+    }
+    public function customertransactionfilter(Request $request){
+        if(isset($request->from)){
+            $from=Carbon::parse($request->from);
+        }
+        if(isset($request->to)){
+            $to=Carbon::parse($request->to);
+        }
+
+        $q = CustomerTransaction::query();
+        if(isset($from) && isset($to)){
+            $q=$q->whereBetween('created_at',[$from,$to]);
+        }else{
+            if(isset($from)){
+                $q=$q->whereDate('created_at',$from);
+            }
+            if(isset($to)){
+                $q=$q->whereDate('created_at',$to);
+            }
+        }
+        $data = $q->orderBy('id','asc')->get();
+        return response()->json([
+            'success'=>true,
+            'data'=>CustomerTransactionResource::collection($data),
+        ]);
     }
 }
